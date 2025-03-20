@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import Book from "../models/Book.js";
+import Review from "../models/Review.js";
 
 const bookRouter = new Router();
 
@@ -32,16 +33,19 @@ bookRouter
         else res.send(result)
     })
     .patch(async(req, res) => {
-        const result = await Book.findByIdAndUpdate(req.params.id, req.body, {new: true})
+        const result = await Book.findByIdAndUpdate(req.params.bookId, req.body, {new: true})
+        console.log(result)
 
         if(!result) res.status(404).send('Book not found')
         else res.send(result)
     })
     .delete(async(req, res) => {
-        const result = await Book.findByIdAndDelete(req.params.id)
+        const result = await Book.findByIdAndDelete(req.params.bookId)
 
         if(!result) res.status(404).send('Book not found')
-        else res.send(result)
+        else res.send('Book successfully deleted')
     })
+
+
 
 export default bookRouter;
