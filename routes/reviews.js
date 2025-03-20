@@ -64,4 +64,16 @@ reviewRouter
         }
     })
 
+reviewRouter.get('/users/:userId', async(req, res) => {
+    try {
+        const reviews = await Review.find({user_id: req.params.userId})
+
+        if(!reviews) res.status(404).send('Reviews not found')
+        else res.json(reviews)
+    } catch (e) {
+        console.error(e)
+        res.status(400).json({message: e.message})
+    }
+})
+
 export default reviewRouter;
