@@ -18,4 +18,6 @@ const bookSchema = new mongoose.Schema({
     }
 })
 
+bookSchema.index({title: 1})
+
 export default mongoose.model('Book', bookSchema)

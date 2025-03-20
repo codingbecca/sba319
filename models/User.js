@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
   },
 );
 
+//mongoose automatically creates indexes on fields that are set to be unique, so this code is redundant
 // userSchema.index({username: 1});
 // userSchema.index({email: 1});
 

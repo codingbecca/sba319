@@ -6,6 +6,9 @@ const reviewRouter = new Router();
 
 reviewRouter
     .route('/')
+    /**
+     * GET /api/reviews returns all reviews
+     */
     .get(async(req, res) => {
         try {
             const result = await Review.find({})
@@ -17,6 +20,9 @@ reviewRouter
             res.status(400).json({message: e.message})
         }
     })
+    /**
+     * POST /api/reviews creates a new review
+     */
     .post(async (req, res) => {
         try {
             const review = new Review(req.body)
@@ -30,6 +36,9 @@ reviewRouter
 
 reviewRouter
     .route('/:reviewId')
+    /**
+     * GET /api/reviews/:reviewId returns a single review by id
+     */
     .get( async(req, res) => {
         try {
             const result = await Review.findById(req.params.reviewId)
@@ -41,6 +50,9 @@ reviewRouter
             res.status(400).json({message: e.message})
         }
     })
+    /**
+     * PATCH /api/reviews/:reviewId updates a review by id
+     */
     .patch(async(req, res) => {
         try {
             const result = await Review.findByIdAndUpdate(req.params.reviewId, req.body, {new: true})
@@ -52,6 +64,9 @@ reviewRouter
             res.status(400).json({message: e.message})
         }
     })
+    /**
+     * DELETE /api/reviews/:reviewId deletes a review by id
+     */
     .delete(async(req, res) => {
         try {
             const result = await Review.findByIdAndDelete(req.params.reviewId)
@@ -64,6 +79,9 @@ reviewRouter
         }
     })
 
+/**
+ * GET /api/reviews/users/:userId returns all reviews written by a specific user
+ */
 reviewRouter.get('/users/:userId', async(req, res) => {
     try {
         const reviews = await Review.find({user_id: req.params.userId})

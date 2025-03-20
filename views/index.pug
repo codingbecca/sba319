@@ -42,13 +42,15 @@ html(lang="en")
           |     "_id": "string",
           |     "name": "string",
           |     "email": "string",
-          |     "createdAt": "date"
+          |     "password": "string",
+          |     "createdAt": "date",
+          |     "updatedAt": "date"
           |   }
           | ]
 
     .endpoint
       span.method.get GET
-      code /users/:id
+      code /users/:userId
       p Retrieve a specific user by ID
       h4 Response
       pre
@@ -57,13 +59,69 @@ html(lang="en")
           |   "_id": "string",
           |   "name": "string",
           |   "email": "string",
-          |   "createdAt": "date"
+          |   "password": "string",
+          |   "createdAt": "date",
+          |   "updatedAt": "date"
           | }
+  
+    h3 Books
+
+    .endpoint
+      span.method.get GET
+      code /books
+      p Retrieve all books
+      h4 Response
+      pre
+        code
+          | [
+          |   {
+          |     "_id": "string",
+          |     "isbn": "string",
+          |     "title": "string",
+          |     "author": "string",
+          |     "description": "string",
+          |     "genre": "string",
+          |     "publicationYear": "number"
+          |   }
+          | ]
+
+    .endpoint
+      span.method.get GET
+      code /books/:bookId
+      p Retrieve a specific book by ID
+      h4 Response
+      pre
+        code
+          | {
+          |   "_id": "string",
+          |   "isbn": "string",
+          |   "title": "string",
+          |   "author": "string",
+          |   "description": "string",
+          |   "genre": "string",
+          |   "publicationYear": "number"
+          | }
+
+    .endpoint
+      span.method.get GET
+      code /books/:bookId/reviews
+      p Retrieve all reviews for a specific book
+      h4 Response
+      pre
+        code
+          | [
+          |   {
+          |     "_id": "string",
+          |     "book_id": "string",
+          |     "user_id": "string",
+          |     "review": "string"
+          |   }
+          | ]
 
     .endpoint
       span.method.post POST
-      code /users
-      p Create a new user
+      code /books
+      p Create a new book
       h4 Request Body
       table
         tr
@@ -72,29 +130,52 @@ html(lang="en")
           th Required
           th Description
         tr
-          td name
+          td isbn
           td string
-          td Yes
-          td User's full name
+          td yes
+          td book's ISBN
         tr
-          td email
+          td title
           td string
-          td Yes
-          td User's email address
+          td yes
+          td book's title
+        tr
+          td author
+          td string
+          td no
+          td book's author
+        tr
+          td description
+          td string
+          td no
+          td short description of the book
+        tr
+          td genre
+          td string
+          td no
+          td book's genre
+        tr
+          td publicationYear
+          td number
+          td no
+          td year of publication, must be equal to or greater than 868
       h4 Response
       pre
         code
           | {
           |   "_id": "string",
-          |   "name": "string",
-          |   "email": "string",
-          |   "createdAt": "date"
+          |   "isbn": "string",
+          |   "title": "string",
+          |   "author": "string",
+          |   "description": "string",
+          |   "genre": "string",
+          |   "publicationYear": "number"
           | }
 
     .endpoint
-      span.method.put PUT
-      code /users/:id
-      p Update an existing user
+      span.method.patch PATCH
+      code /books/:bookId
+      p Update an existing book
       h4 Request Body
       table
         tr
@@ -103,31 +184,183 @@ html(lang="en")
           th Required
           th Description
         tr
-          td name
+          td isbn
           td string
-          td No
-          td User's full name
+          td no
+          td book's ISBN
         tr
-          td email
+          td title
           td string
-          td No
-          td User's email address
+          td no
+          td book's title
+        tr
+          td author
+          td string
+          td no
+          td book's author
+        tr
+          td description
+          td string
+          td no
+          td short description of the book
+        tr
+          td genre
+          td string
+          td no
+          td book's genre
+        tr
+          td publicationYear
+          td number
+          td no
+          td year of publication, must be equal to or greater than 868
       h4 Response
       pre
         code
           | {
           |   "_id": "string",
-          |   "name": "string",
-          |   "email": "string",
-          |   "createdAt": "date"
+          |   "isbn": "string",
+          |   "title": "string",
+          |   "author": "string",
+          |   "description": "string",
+          |   "genre": "string",
+          |   "publicationYear": "number"
           | }
 
     .endpoint
       span.method.delete DELETE
-      code /users/:id
-      p Delete a user
+      code /books/:bookId
+      p Delete a book
       h4 Response
-      p Returns status code 204 with no content on success.
+      pre
+        code "Book successfully deleted"
+  
+    h3 Reviews
+
+    .endpoint
+      span.method.get GET
+      code /reviews
+      p Retrieve all reviews
+      h4 Response
+      pre
+        code
+          | [
+          |   {
+          |     "_id": "string",
+          |     "book_id": "string",
+          |     "user_id": "string",
+          |     "review": "string"
+          |   }
+          | ]
+
+    .endpoint
+      span.method.get GET
+      code /reviews/:reviewId
+      p Retrieve a specific review by ID
+      h4 Response
+      pre
+        code
+          | {
+          |   "_id": "string",
+          |   "book_id": "string",
+          |   "user_id": "string",
+          |   "review": "string"
+          | }
+
+    .endpoint
+      span.method.get GET
+      code /reviews/users/:userId
+      p Retrieve all reviews written by a specific user
+      h4 Response
+      pre
+        code
+          | [
+          |   {
+          |     "_id": "string",
+          |     "book_id": "string",
+          |     "user_id": "string",
+          |     "review": "string"
+          |   }
+          | ]
+
+    .endpoint
+      span.method.post POST
+      code /reviews
+      p Create a new review
+      h4 Request Body
+      table
+        tr
+          th Field
+          th Type
+          th Required
+          th Description
+        tr
+          td book_id
+          td string
+          td yes
+          td the id of the book the review is for
+        tr
+          td user_id
+          td string
+          td yes
+          td id of the user submitting the review
+        tr
+          td review
+          td string
+          td yes
+          td review of the book
+      h4 Response
+      pre
+        code
+          | {
+          |   "_id": "string",
+          |   "book_id": "string",
+          |   "user_id": "string",
+          |   "review": "string"
+          | }
+
+    .endpoint
+      span.method.patch PATCH
+      code /reviews/:reviewId
+      p Update an existing book review
+      h4 Request Body
+      table
+        tr
+          th Field
+          th Type
+          th Required
+          th Description
+        tr
+          td book_id
+          td string
+          td no
+          td the id of the book the review is for
+        tr
+          td user_id
+          td string
+          td no
+          td id of the user submitting the review
+        tr
+          td review
+          td string
+          td no
+          td review of the book
+      h4 Response
+      pre
+        code
+          | {
+          |   "_id": "string",
+          |   "book_id": "string",
+          |   "user_id": "string",
+          |   "review": "string"
+          | }
+
+    .endpoint
+      span.method.delete DELETE
+      code /reviews/:reviewId
+      p Delete a review by id
+      h4 Response
+      pre
+        code "Review successfully deleted"
 
     h2 Error Responses
     p The API returns standard HTTP status codes and JSON error messages:
