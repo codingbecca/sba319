@@ -46,7 +46,7 @@ bookRouter
      */
     .patch(async(req, res) => {
         const result = await Book.findByIdAndUpdate(req.params.bookId, req.body, {new: true})
-        console.log(result)
+        // console.log(result)
 
         if(!result) res.status(404).send('Book not found')
         else res.send(result)
